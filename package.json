@@ -4,11 +4,11 @@
   "description": "Emagram Database Client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint && ava",
     "lint": "standard"
   },
   "standard": {
-    "parser": "babel-eslint" 
+    "parser": "babel-eslint"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/EmanuelCasco/emagram-db#readme",
   "devDependencies": {
+    "ava": "^0.18.2",
     "babel-eslint": "^7.2.0",
     "standard": "^9.0.2"
   }
