@@ -24,5 +24,8 @@
     "ava": "^0.18.2",
     "babel-eslint": "^7.2.0",
     "standard": "^9.0.2"
+  },
+  "dependencies": {
+    "uuid-base62": "^0.1.0"
   }
 }
