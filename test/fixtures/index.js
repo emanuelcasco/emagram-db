@@ -24,7 +24,7 @@ const fixtures = {
       name: 'Random user',
       username: `user_${uuid.v4()}.jpg`,
       password: uuid.uuid(),
-      email: `cascoemanuel+${uuid.v4()}@gmail.com`,
+      email: `cascoemanuel+${uuid.v4()}@gmail.com`
     }
   }
 }
