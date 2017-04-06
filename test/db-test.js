@@ -6,25 +6,29 @@ const uuid = require('uuid-base62')
 const DB = require('../')
 const fixtures = require('./fixtures')
 
-const dbName = `emagram_${uuid.v4()}`
-const db = new DB({ db: dbName })
-
-test.before('setup database', async t => {
+test.beforeEach('setup database', async t => {
+  const dbName = `emagram_${uuid.v4()}`
+  const db = new DB({ db: dbName })
   await db.connect()
+  t.context.db = db
+  t.context.dbName = dbName
   t.true(db.connected, 'should be connected')
 })
 
-test.after('disconnect database', async t => {
+test.afterEach('cleanup database', async t => {
+  let db = t.context.db
+  let dbName = t.context.dbName
+
   await db.disconnect()
   t.false(db.connected, 'should be disconnected')
-})
 
-test.after.always('cleanup database', async t => {
   let conn = await r.connect({})
   await r.dbDrop(dbName).run(conn)
 })
 
 test('save image', async t => {
+  let db = t.context.db
+
   t.is(typeof db.saveImage, 'function', 'saveImage is a function')
 
   let image = fixtures.getImage()
@@ -43,6 +47,8 @@ test('save image', async t => {
 })
 
 test('like image', async t => {
+  let db = t.context.db
+
   t.is(typeof db.likeImage, 'function', 'likeImage is a function')
 
   let image = fixtures.getImage()
@@ -54,6 +60,8 @@ test('like image', async t => {
 })
 
 test('get image', async t => {
+  let db = t.context.db
+
   t.is(typeof db.getImage, 'function', 'getImage is a function')
 
   let image = fixtures.getImage()
@@ -61,4 +69,15 @@ test('get image', async t => {
   let result = await db.getImage(created.public_id)
 
   t.deepEqual(created, result)
+})
+
+test('list all images', async t => {
+  let db = t.context.db
+
+  let images = fixtures.getImages(3)
+  let saveImages = images.map(img => db.saveImage(img))
+  let created = await Promise.all(saveImages)
+  let result = await db.getImages()
+
+  t.is(created.length, result.length)
 })
