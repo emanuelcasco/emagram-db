@@ -18,6 +18,14 @@ const fixtures = {
       images.push(this.getImage())
     }
     return images
+  },
+  getUser () {
+    return {
+      name: 'Random user',
+      username: `user_${uuid.v4()}.jpg`,
+      password: uuid.uuid(),
+      email: `cascoemanuel+${uuid.v4()}@gmail.com`,
+    }
   }
 }
 
